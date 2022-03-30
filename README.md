@@ -1,9 +1,4 @@
 <h1 align="center">Welcome to E-COM 👋</h1>
-<p>
-  <a href="https://twitter.com/svetozargospod1" target="_blank">
-    <img alt="Twitter: svetozargospod1" src="https://img.shields.io/twitter/follow/svetozargospod1.svg?style=social" />
-  </a>
-</p>
 
 > Social app which would look like reddit or discord
 
