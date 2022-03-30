@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "@nestjs/mapped-types": "*"
+  },
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "ci": "yarn ci",
+    "build": "lerna run build --stream",
+    "dev": "lerna run dev --no-sort --stream",
+    "lint": "lerna run lint --no-sort --stream",
+    "test": "lerna run test --stream",
+    "diff": "lerna diff",
+    "format": "lerna run build --stream",
+    "kill": "npx kill-port 3000 4000 4002 8001 -y"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.14.0",
+    "@typescript-eslint/parser": "^5.14.0",
+    "eslint": "^8.10.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-react": "^7.29.3",
+    "lerna": "^4.0.0"
+  },
+  "name": "social_app"
+}
