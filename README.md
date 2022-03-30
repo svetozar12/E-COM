@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to social_app 👋</h1>
+<h1 align="center">Welcome to E-COM 👋</h1>
 <p>
   <a href="https://twitter.com/svetozargospod1" target="_blank">
     <img alt="Twitter: svetozargospod1" src="https://img.shields.io/twitter/follow/svetozargospod1.svg?style=social" />
