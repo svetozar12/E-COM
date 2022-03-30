@@ -20,16 +20,3 @@ yarn dev
 yarn test
 ```
 
-## Author
-
-👤 **Svetozar Gospodinov**
-
-- Website: https://react-site-portfolio.netlify.app/
-- Twitter: [@svetozar gospodinov](https://twitter.com/svetozar gospodinov)
-- Github: [@svetozar12](https://github.com/svetozar12)
-
-## Show your support
-
-Give a ⭐️ if this project helped you!
-
----
