@@ -3,11 +3,14 @@ version: "3.1"
 name: DbTools-Dbs
 services:
   db:
-    container_name: PostgreSql
+    container_name: PostgresSql
     image: postgres
-    restart: always
     environment:
-      POSTGRES_PASSWORD: example
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: E-COM-DB
+    ports:
+      - "5432:5432"
 
   adminer:
     container_name: PostgreSql_adminer

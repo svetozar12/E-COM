@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "build": "lerna run build --stream",
-    "dev": "lerna run dev --no-sort --stream",
+    "dev": "yarn kill && lerna run dev --no-sort --stream",
     "lint": "lerna run lint --no-sort --stream",
     "test": "lerna run test --stream",
     "diff": "lerna diff",
