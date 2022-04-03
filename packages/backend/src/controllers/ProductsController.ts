@@ -1,15 +1,11 @@
 import { NextFunction, Request, Response, Router } from "express";
 export const ProductsController: Router = Router();
-import pool from "../config/Postgres";
+import User from "../models/User.model";
 // endpoint :/products
 ProductsController.get("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    pool.query(`SELECT * FROM products`, (error, results) => {
-      if (error) {
-        throw error;
-      }
-    });
-    res.status(200).send({ data: "Products" });
+    const dbRes = await User.find({ username: "ivancho" });
+    res.status(200).json({ data: dbRes });
   } catch (e) {
     next(e);
   }
@@ -17,12 +13,13 @@ ProductsController.get("/", async (req: Request, res: Response, next: NextFuncti
 
 ProductsController.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    pool.query("INSERT INTO users (name, email) VALUES ($1, $2)", ["user1", "user1@.com"], (error, results) => {
-      if (error) {
-        throw error;
-      }
+    const username = req.body.username;
+    const dbRes = new User({
+      type: "POST",
+      username,
     });
-    res.status(200).send({ data: "Products" });
+    dbRes.save();
+    res.status(200).json({ data: dbRes });
   } catch (e) {
     next(e);
   }
