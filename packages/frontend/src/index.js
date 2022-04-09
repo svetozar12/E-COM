@@ -1,16 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Navbar from './Comps/Navbar';
-import Newsletter from './Comps/Newsletter';
-import Footer from './Comps/Footer';
-import DisplayItems from './Comps/DisplayItems';
+import Navbar from './Components/Navbar';
+import Newsletter from './Components/Newsletter';
+import Footer from './Components/Footer';
+import DisplayItems from './Components/Seasons';
+import Login from './Pages/Login_Signin/Login';
+import Signin from './Pages/Login_Signin/Signin';
 import App from './App';
+import store from './App'
+import { Provider } from 'react-redux'
+
+
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </Provider>,
   document.getElementById('root')
 );
 

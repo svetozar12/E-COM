@@ -1,6 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;1,500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #808080;
+  opacity: 1;
+  font-size: medium;
+  /* Firefox */
+}
+
+
 
 *{
   margin: 0;
@@ -43,15 +57,24 @@ body{
 .btn p {
   text-align: center;
 }
+  .cover:hover .item{
+    transform: translateX(0%);
+  }
 
-  
-/* .item:after{
+.item{
   content: "";
   display: block;
   position: absolute;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-evenly;
+  align-items: center;
   width: 100%;
   height: 100%;
   background-color: black;
-  opacity: 0.3;
+  top: 0;
+  transform: translateX(100%);
+  transition-duration: 0;
+  opacity: 0.8;
   z-index: 9999;
-} */
+} 
