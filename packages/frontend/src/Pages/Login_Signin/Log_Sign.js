@@ -1,9 +1,25 @@
-import React from "react";
+import React, {useState} from "react";
+import Login from "./Login";
+import Signin from "./Signin";
 
 export default function Log_Sign() {
+  const [wantsLogIn, setWantsLogIn] = useState(true)
+
   return (
-    <main className="font-body flex justify-center flex-col md:flex-row items-center   h-screen w-screen bg-gray-200">
-      
-      </main>
+    <>
+     {
+     wantsLogIn?
+     <Login wantsLogIn={wantsLogIn} setWantsLogIn={setWantsLogIn} />
+     : <Signin wantsLogIn={wantsLogIn} setWantsLogIn={setWantsLogIn} />
+          
+     } 
+
+    </>
+
+
+
+
+
+
   )
 }

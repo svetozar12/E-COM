@@ -3,9 +3,8 @@ import { AiOutlineMail, AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/
 import { ExternalLink } from 'react-external-link'
 
 
-export default function Login() {
+export default function Login({wantsLogIn,setWantsLogIn}) {
 
-    const [wantsLogIn, setWantsLogIn] = useState(true)
     const [showPassword, setShowPassword] = useState(false)
 
     const [emailValue, setEmailValue] = useState('')
