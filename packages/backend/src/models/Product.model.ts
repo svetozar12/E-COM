@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { CategorySchema } from "./Category.model";
+import Category, { CategorySchema } from "./Category.model";
 
 export interface ProductSchema {
   _id: any;
@@ -23,6 +23,13 @@ const ProductSchema = new Schema<ProductSchema>({
 
 const Product = model<ProductSchema>("Product", ProductSchema);
 
+const readProduct = (product: ProductSchema) => {
+  let product_instance = Product.findOne(product).exec();
+  // @ts-ignore
+  let product_category = Category.findOne({ _id: product_instance._id });
+  return Product.findOne(product_category);
+};
+
 const createProduct = (product: ProductSchema) => {
   return Product.create(product).then((docProduct) => {
     return docProduct;
@@ -33,6 +40,14 @@ const updateProduct = (product_id: string, category: CategorySchema) => {
   return Product.findByIdAndUpdate(product_id, { category_id: category._id }, { new: true, useFindAndModify: false });
 };
 
-export { createProduct, updateProduct };
+const deletePorudct = (product: ProductSchema) => {
+  let product_instance = Product.findOne(product).exec();
+  // @ts-ignore
+  let product_category = Category.findOne({ _id: product_instance._id });
+  // @ts-ignore
+  return Product.deleteOne({ _id: product_instance._id, category_id: product_category._id });
+};
+
+export { readProduct, createProduct, updateProduct, deletePorudct };
 
 export default Product;
