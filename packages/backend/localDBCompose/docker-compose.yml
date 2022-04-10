@@ -1,26 +1,13 @@
 # Use postgres/example user/password credentials
 version: "3.1"
-name: DbTools-Dbs
+name: db
 services:
-  db:
-    container_name: PostgreSql
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: example
-
-  adminer:
-    container_name: PostgreSql_adminer
-    image: adminer
-    restart: always
+  mongo:
+    container_name: mongo
+    image: mongo
+    volumes:
+      - mongo_db:/data/db
     ports:
-      - 3060:3060
-
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4
-    restart: always
-    env_file:
-      - ../.env
-    ports:
-      - 5555:80
+      - "27017:27017"
+volumes:
+  mongo_db: {}
