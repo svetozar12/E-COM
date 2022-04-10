@@ -3,14 +3,14 @@ import { ProductSchema } from "./Product.model";
 
 export interface CategorySchema {
   _id: any;
-  products: { type: string };
-  categories: string[];
+  products: [{ type: string }];
+  category: string;
 }
 
 const CategorySchema = new Schema<CategorySchema>({
   _id: { type: Schema.Types.ObjectId, required: true },
-  products: { type: Schema.Types.ObjectId, ref: "Product", required: true },
-  categories: [{ type: String, required: true, default: "default-category" }],
+  products: [{ type: Schema.Types.ObjectId, ref: "Product", required: true }],
+  category: { type: String, required: true, default: "default-category" },
 });
 
 const Category = model<CategorySchema>("Category", CategorySchema);

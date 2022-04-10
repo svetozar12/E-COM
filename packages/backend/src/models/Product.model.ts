@@ -3,7 +3,7 @@ import Category, { CategorySchema } from "./Category.model";
 
 export interface ProductSchema {
   _id: any;
-  category_id?: { type: string };
+  category_id?: [{ type: string }];
   out_of_stock: boolean;
   product_name: string;
   product_description: string;
@@ -13,7 +13,7 @@ export interface ProductSchema {
 
 const ProductSchema = new Schema<ProductSchema>({
   _id: { type: Schema.Types.ObjectId, required: true },
-  category_id: { type: Schema.Types.ObjectId, ref: "Category", required: true },
+  category_id: [{ type: Schema.Types.ObjectId, ref: "Category", required: true }],
   out_of_stock: { type: Boolean, required: true, default: false },
   product_name: { type: String, required: true, unique: true, index: true },
   product_description: { type: String, default: "No description provided" },
@@ -23,11 +23,8 @@ const ProductSchema = new Schema<ProductSchema>({
 
 const Product = model<ProductSchema>("Product", ProductSchema);
 
-const readProduct = (product: ProductSchema) => {
-  let product_instance = Product.findOne(product).exec();
-  // @ts-ignore
-  let product_category = Category.findOne({ _id: product_instance._id });
-  return Product.findOne(product_category);
+const readProduct = (_id: string) => {
+  return Product.findOne({ _id }).exec();
 };
 
 const createProduct = (product: ProductSchema) => {
@@ -36,18 +33,10 @@ const createProduct = (product: ProductSchema) => {
   });
 };
 
-const updateProduct = (product_id: string, category: CategorySchema) => {
-  return Product.findByIdAndUpdate(product_id, { category_id: category._id }, { new: true, useFindAndModify: false });
+const updateProductCategories = (product_id: string, category: CategorySchema) => {
+  return Product.findByIdAndUpdate(product_id, { $push: { category_id: category._id } }, { new: true, useFindAndModify: false });
 };
 
-const deletePorudct = (product: ProductSchema) => {
-  let product_instance = Product.findOne(product).exec();
-  // @ts-ignore
-  let product_category = Category.findOne({ _id: product_instance._id });
-  // @ts-ignore
-  return Product.deleteOne({ _id: product_instance._id, category_id: product_category._id });
-};
-
-export { readProduct, createProduct, updateProduct, deletePorudct };
+export { readProduct, createProduct, updateProductCategories };
 
 export default Product;

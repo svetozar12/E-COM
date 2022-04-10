@@ -1,14 +1,16 @@
 import { NextFunction, Request, Response, Router } from "express";
 import * as mongoose from "mongoose";
-import { CategorySchema, createCategory } from "../models/Category.model";
-import Product, { ProductSchema, createProduct, updateProduct } from "../models/Product.model";
+import Category, { CategorySchema, createCategory } from "../models/Category.model";
+import Product, { ProductSchema, readProduct, createProduct, updateProductCategories } from "../models/Product.model";
 export const ProductsController: Router = Router();
-import User from "../models/User.model";
+
 // endpoint :/products
-ProductsController.get("/", async (req: Request, res: Response, next: NextFunction) => {
+ProductsController.get("/:_id", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const dbRes = await User.find({ username: "ivancho" });
-    res.status(200).json({ data: dbRes });
+    const _id: string = req.params._id;
+    const product = await readProduct(_id);
+    if (!product) return res.status(404).json({ message: `product with id: ${_id} wasn't found` });
+    res.status(200).json({ data: product });
   } catch (e) {
     next(e);
   }
@@ -46,11 +48,48 @@ ProductsController.post("/", async (req: Request, res: Response, next: NextFunct
     }
 
     const newCatogory = await createCategory(category);
-    const defaultProduct = await updateProduct(newProduct._id, newCatogory);
+    const defaultProduct = await updateProductCategories(newProduct._id, newCatogory);
 
     res.status(200).json({ data: defaultProduct });
   } catch (e) {
-    next(e);
+    return e;
+  }
+});
+
+ProductsController.put("/:_id", async (req: Request, res: Response) => {
+  try {
+    const _id: string = req.params._id;
+    const newProduct: ProductSchema = {
+      _id: new mongoose.Types.ObjectId(),
+      product_name: req.body.product_name,
+      product_description: req.body.product_description,
+      product_price: req.body.product_price,
+      currency: req.body.currency,
+      out_of_stock: req.body.out_of_stock,
+    };
+
+    await Product.findByIdAndUpdate(_id, newProduct, (err: Error, product: ProductSchema) => {
+      if (err) return res.status(404).json({ message: "Error occurred while searching for product", err });
+      return res.status(201).json({ data: product });
+    });
+  } catch (e) {
+    return e;
+  }
+});
+
+ProductsController.delete("/:_id", async (req: Request, res: Response) => {
+  try {
+    const _id: string = req.params._id;
+
+    const product = await Product.findOne({ _id }).exec();
+    if (!product) return res.status(404).json({ message: `Product with id: ${_id} doesn't exist` });
+
+    await Category.deleteOne({ _id: product.category_id }).exec();
+    await Product.deleteOne({ _id: product._id }).exec();
+
+    res.status(201).json({ data: `deleted product with id: ${_id}` });
+  } catch (e) {
+    return e;
   }
 });
 
