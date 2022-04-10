@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import MOCK_DATA from "./Data/MOCK_DATA";
+// components
 import Navbar from "./Components/Navbar";
 import Carousel from "./Components/Carousel";
 import Newsletter from "./Components/Newsletter";
 import Footer from "./Components/Footer";
-import MOCK_DATA from "./Data/MOCK_DATA";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DisplayItems from "./Components/Seasons";
 import IndexPage from "./Pages/IndexPage/IndexPage";
