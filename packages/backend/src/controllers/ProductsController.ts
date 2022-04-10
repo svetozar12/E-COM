@@ -40,7 +40,7 @@ ProductsController.post("/", async (req: Request, res: Response, next: NextFunct
     const category: CategorySchema = {
       _id: new mongoose.Types.ObjectId(),
       products: newProduct._id,
-      categories: req.body.categories,
+      category: req.body.category,
     };
 
     for (const [key, value] of Object.entries(category)) {

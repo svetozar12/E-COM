@@ -7,7 +7,7 @@ const _routes: [string, Router][] = [
   ["/", IndexController],
   ["/product", ProductsController],
   ["/auth", AuthController],
-  ["/category", CategoryContoller],
+  // ["/category", CategoryContoller],
 ];
 
 export const routes = (app: Application) => {
