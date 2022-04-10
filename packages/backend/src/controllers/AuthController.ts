@@ -14,7 +14,6 @@ AuthController.post("/register", async (req: Request, res: Response, next: NextF
     const UserObj = { username: req.body.username, email: req.body.email, password: req.body.password };
     if (await User.findOne(UserObj)) return res.status(400).json({ message: "User exist" });
     const newUser = new User(UserObj);
-
     const expires = "1h";
     const token = await signTokens(UserObj, secret, expires);
 
