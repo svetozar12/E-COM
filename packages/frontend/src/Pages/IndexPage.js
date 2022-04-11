@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Login from "./Login";
-import Signin from "./Signin";
+import Login from "../Components/Login";
+import SignUp from "../Components/SignUp";
 const IndexPage = () => {
   const [wantsLogIn, setWantsLogIn] = useState(true);
 
@@ -27,10 +27,13 @@ const IndexPage = () => {
         <div className="flex flex-col justify-center gap-2 mt-5 items-center w-3/6 md:w-3/6 h-20">
           <div className="w-full flex flex-col items-center gap-6 md:gap-2 justify-evenly">
             <div className="flex w-full">
-              <button className="w-3/6" onClick={() => setWantsLogIn(true)}>
+              <button className="w-3/6" onClick={(curr) => setWantsLogIn(curr)}>
                 Log-in
               </button>
-              <button className="w-3/6" onClick={() => setWantsLogIn(false)}>
+              <button
+                className="w-3/6"
+                onClick={(curr) => setWantsLogIn(!curr)}
+              >
                 Sing-up
               </button>
             </div>
@@ -48,10 +51,11 @@ const IndexPage = () => {
         {wantsLogIn ? (
           <Login wantsLogIn={wantsLogIn} setWantsLogIn={setWantsLogIn} />
         ) : (
-          <Signin wantsLogIn={wantsLogIn} setWantsLogIn={setWantsLogIn} />
+          <SignUp wantsLogIn={wantsLogIn} setWantsLogIn={setWantsLogIn} />
         )}
       </div>
     </main>
+    //
   );
 };
 

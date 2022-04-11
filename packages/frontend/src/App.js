@@ -8,7 +8,7 @@ import Newsletter from "./Components/Newsletter";
 import Footer from "./Components/Footer";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DisplayItems from "./Components/Seasons";
-import IndexPage from "./Pages/IndexPage/IndexPage";
+import IndexPage from "./Pages/IndexPage";
 
 function App() {
   return (
