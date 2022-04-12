@@ -20,6 +20,8 @@ AuthController.post("/register", async (req: Request, res: Response, next: NextF
     await newUser.save();
     res.status(200).send({ user_id: newUser._id, Access_token: token });
   } catch (e) {
+    console.log(e);
+
     return res.status(500).json({ message: "Internal Server Error" });
   }
 });
