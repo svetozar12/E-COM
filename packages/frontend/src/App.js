@@ -9,6 +9,7 @@ import Footer from "./Components/Footer";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DisplayItems from "./Components/Seasons";
 import IndexPage from "./Pages/IndexPage";
+import AuthProvider from "./utils/auth";
 
 function App() {
   return (
@@ -18,9 +19,9 @@ function App() {
         <Route
           path="/home"
           element={
-            <>
-              <Navbar />
+            <AuthProvider>
               <main className="flex flex-col  items-center justify-start w-screen overflow-x-hidden min-h-screen  w-max-full bg-yellow-200">
+                <Navbar />
                 {/* {/* <Carousel /> */}
                 <DisplayItems />
                 <Newsletter />
@@ -28,7 +29,7 @@ function App() {
                 Displaying all the products
                 {/* <DisplayProducts /> */}
               </main>
-            </>
+            </AuthProvider>
           }
         />
       </Routes>
