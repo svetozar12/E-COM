@@ -9,6 +9,19 @@ import * as bcrypt from "bcrypt";
 const secret = process.env.JWT_SECRET as string;
 const secret_refresh = process.env.JWT_REFRESH_SECRET as string;
 
+AuthController.get("/user", verifyToken, async (req: any, res: Response) => {
+  try {
+    if (!req.token) return res.status(400);
+    return res.status(200).json({ message: "token is valid" });
+  } catch (error) {
+    return res.status(501).json({
+      ErrorMsg: error as Error,
+      Error: "Internal server error",
+      Message: "Something went wrong while loging",
+    });
+  }
+});
+
 AuthController.post("/register", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const UserObj = { username: req.body.username, email: req.body.email, password: req.body.password };
