@@ -26,7 +26,7 @@ AuthController.post("/register", async (req: Request, res: Response, next: NextF
   }
 });
 
-AuthController.get("/login", verifyToken, async (req: Request, res: Response, next: NextFunction) => {
+AuthController.post("/login", verifyToken, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const UserObj = { email: req.body.email };
 
