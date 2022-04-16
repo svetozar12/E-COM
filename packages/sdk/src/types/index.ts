@@ -1,7 +1,8 @@
 interface IEndpoints {
-  posts: {
-    api: (options: {
-      postId: number;
+  auth: {
+    login: (options: {
+      email: string;
+      password: string;
     }) => {
       method: string;
       resource: string;

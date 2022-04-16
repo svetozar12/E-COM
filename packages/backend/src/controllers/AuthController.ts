@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response, Router } from "express";
-const AuthController: Router = Router();
 import { signTokens, verifyToken } from "../utils/jwt";
 import "dotenv/config";
 import User from "../models/User.model";
 import * as bcrypt from "bcrypt";
 // endpoint :/
+const AuthController: Router = Router();
 
 const secret = process.env.JWT_SECRET as string;
 const secret_refresh = process.env.JWT_REFRESH_SECRET as string;
@@ -41,6 +41,8 @@ AuthController.post("/register", async (req: Request, res: Response, next: NextF
 
 AuthController.post("/login", async (req: Request, res: Response, next: NextFunction) => {
   try {
+    console.log(req.body);
+
     const UserObj = { email: req.body.email };
 
     const user = await User.findOne(UserObj);
@@ -56,6 +58,7 @@ AuthController.post("/login", async (req: Request, res: Response, next: NextFunc
 
     res.status(200).send({ user_id: user._id, Access_token: token, Refresh_token: refresh_token });
   } catch (e) {
+    console.log(e);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 });

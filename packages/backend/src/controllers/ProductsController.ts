@@ -18,6 +18,8 @@ ProductsController.get("/:_id", async (req: Request, res: Response, next: NextFu
 
 ProductsController.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
+    console.log("hi");
+
     const product: ProductSchema = {
       _id: new mongoose.Types.ObjectId(),
       product_name: req.body.product_name,
@@ -50,7 +52,7 @@ ProductsController.post("/", async (req: Request, res: Response, next: NextFunct
     const newCatogory = await createCategory(category);
     const defaultProduct = await updateProductCategories(newProduct._id, newCatogory);
 
-    res.status(200).json({ data: defaultProduct });
+    return res.status(200).json({ data: defaultProduct });
   } catch (e) {
     return e;
   }

@@ -1,33 +1,36 @@
 import fetch from "node-fetch";
-
+import "dotenv/config";
 import { IEndpoints } from "./types";
-class JSONPlaceholder {
+
+class API {
   endpoints: IEndpoints;
 
   constructor() {
     this.endpoints = {
       // here we declare all endpoints for resource posts
-      posts: {
-        api: (options: { postId: number }) => {
+      auth: {
+        // @ts-ignore
+        login: (options) => {
           return {
-            method: "GET",
-            resource: `/api${options.postId ? `/${options.postId}` : ""}`,
+            method: "POST",
+            resource: "/auth/login",
+            headers: { "Content-Type": "application/json" },
             params: {},
-            body: null,
+            body: {
+              email: options.email,
+              password: options.password,
+            },
           };
         },
       },
     };
   }
-  request(
-    endpoint: { method: string | undefined; body: any; resource: any } = { method: undefined, body: undefined, resource: undefined },
-  ) {
-    const url = `https://randomuser.me${endpoint.resource}`;
-    console.log(url);
+  request(endpoint: any = {}) {
+    const url = `${process.env.API_URL}${endpoint.resource}`;
     return fetch(url, {
       method: endpoint?.method,
-      // @ts-ignore
-      body: endpoint?.body ? JSON.stringify(endpoint.body) : null,
+      headers: endpoint.headers,
+      body: JSON.stringify(endpoint.body),
     })
       .then(async (response) => {
         const data = await response.json();
@@ -38,9 +41,9 @@ class JSONPlaceholder {
       });
   }
 
-  posts(method = "", options = {}) {
+  auth(method = "", options = {}) {
     // @ts-ignore
-    const existingEndpoint = this.endpoints.posts[method];
+    const existingEndpoint = this.endpoints.auth[method];
 
     if (existingEndpoint) {
       const endpoint = existingEndpoint(options);
@@ -49,12 +52,12 @@ class JSONPlaceholder {
   }
 }
 
-const jsonPlaceholder = new JSONPlaceholder();
+const sdk = new API();
 
-export default jsonPlaceholder;
+export default sdk;
 
 const init = async () => {
-  const data = await jsonPlaceholder.posts("api");
+  const data = await sdk.auth("login", { email: "ivan@.com", password: "ivan" });
   console.log(data);
 };
 
