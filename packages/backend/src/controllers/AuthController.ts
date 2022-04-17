@@ -3,6 +3,7 @@ import { signTokens, verifyToken } from "../utils/jwt";
 import "dotenv/config";
 import User from "../models/User.model";
 import * as bcrypt from "bcrypt";
+import jwt_decode from "jwt-decode";
 // endpoint :/
 const AuthController: Router = Router();
 
@@ -12,7 +13,9 @@ const secret_refresh = process.env.JWT_REFRESH_SECRET as string;
 AuthController.get("/user", verifyToken, async (req: any, res: Response) => {
   try {
     if (!req.token) return res.status(400);
-    return res.status(200).json({ message: "token is valid" });
+    const user = await User.findOne({ email: req.token.email }).select("_id username email");
+    if (!user) return res.status(404).json({ message: "user not found" });
+    return res.status(200).json({ data: user });
   } catch (error) {
     return res.status(501).json({
       ErrorMsg: error as Error,

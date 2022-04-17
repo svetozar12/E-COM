@@ -18,8 +18,6 @@ ProductsController.get("/:_id", async (req: Request, res: Response, next: NextFu
 
 ProductsController.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log("hi");
-
     const product: ProductSchema = {
       _id: new mongoose.Types.ObjectId(),
       product_name: req.body.product_name,

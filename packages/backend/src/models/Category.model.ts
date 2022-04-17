@@ -10,9 +10,8 @@ export interface CategorySchema {
 const CategorySchema = new Schema<CategorySchema>({
   _id: { type: Schema.Types.ObjectId, required: true },
   products: [{ type: Schema.Types.ObjectId, ref: "Product", required: true }],
-  category: { type: String, required: true, default: "default-category" },
+  category: { type: String, required: true, unique: true, index: true, default: "default-category" },
 });
-
 const Category = model<CategorySchema>("Category", CategorySchema);
 
 const createCategory = (product: CategorySchema) => {
