@@ -1,13 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+// Icons
 import { BsCart3 } from 'react-icons/bs'
 import { BiSearchAlt } from 'react-icons/bi'
 import { GiHamburgerMenu } from 'react-icons/gi'
-import { ExternalLink } from 'react-external-link'
+import { HiLogout } from 'react-icons/hi'
+// Redux
+import { useDispatch, useSelector } from "react-redux";
+// Router
+import { useNavigate } from "react-router-dom";
+import { ActionType } from "../redux/types";
 
 export default function Navbar() {
 
     const [inputValue, setInputValue] = useState('')
     const [openNav, setOpenNav] = useState(false)
+
+    const LoggedIn = useSelector(state => state.setReducer.LoggedIn)
+    const name = useSelector(state => state.setReducer.name)
+
+
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+
+
+    const LogOut = () => {
+        dispatch({ type: ActionType.SET_LOADING })
+
+        dispatch({ type: ActionType.LOG_OUT })
+        navigate('/home', { replace: true })
+        dispatch({ type: ActionType.REMOVE_LOADING })
+
+
+    }
 
     return (
         <div className="flex px-16 relative justify-between  items-center w-screen h-16 bg-orange-200">
@@ -22,13 +48,28 @@ export default function Navbar() {
             <div className="text-2xl">
                 LOGO
             </div>
-            <div className="text-lg hidden md:flex  justify-between w-60 flex-shrink flex-nowrap">
-                <button>Register</button>
-                <button
-                >    <ExternalLink href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
-                        Log in
-                    </ExternalLink>
-                </button>
+            <div className="text-lg hidden md:flex  justify-between w-1/4  flex-shrink flex-nowrap">
+                {LoggedIn ?
+                    <> <div className="flex w-72 justify-evenly  items-center">
+                        <h2 className="text-xl">{name}</h2>
+                    </div>
+                        <button
+                            onClick={() => LogOut()}
+                            className="text-2xl w-10"><HiLogout /></button>
+                    </>
+                    :
+                    <>
+                        <button
+                            onClick={() => navigate("/", { replace: true })}>
+                            Register
+                        </button>
+                        <button
+                            onClick={() => navigate("/", { replace: true })}>
+                            Log in
+                        </button>
+                    </>
+
+                }
 
                 <button className="text-2xl w-10 relative">
                     <BsCart3 />
