@@ -5,7 +5,7 @@
   },
   "private": true,
   "workspaces": [
-   "packages/*"
+    "packages/*"
   ],
   "scripts": {
     "build": "lerna run build --stream",
@@ -14,15 +14,12 @@
     "test": "lerna run test --stream",
     "diff": "lerna diff",
     "format": "lerna run build --stream",
-    "kill": "npx kill-port 3000 5000 4000 4002 8001 -y"
+    "kill": "npx kill-port 3000 5000 4000 4002 8001 -y",
+    "graph": "lerna-dependency-graph"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.14.0",
-    "@typescript-eslint/parser": "^5.14.0",
-    "eslint": "^8.10.0",
-    "eslint-config-google": "^0.14.0",
-    "eslint-plugin-react": "^7.29.3",
     "lerna": "^4.0.0",
+    "lerna-dependency-graph": "^1.1.0",
     "webpack-cli": "^4.9.2"
   },
   "name": "social_app"
