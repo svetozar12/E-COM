@@ -1,10 +1,10 @@
-import fetch from "node-fetch";
+import axios from "axios";
 import "dotenv/config";
 import { IEndpoints } from "./types";
 import { endpoint_enums } from "./enpoints_enum";
 
 // pattern: Builder Pattern(js variation)
-class API {
+export class API {
   endpoints: IEndpoints;
 
   constructor() {
@@ -63,10 +63,11 @@ class API {
   // creating and url for the api request and returning the data
   request(endpoint: any = {}) {
     const url = `${process.env.API_URL}${endpoint.resource}`;
-    return fetch(url, {
+    return axios({
       method: endpoint?.method,
+      url,
       headers: endpoint.headers,
-      body: JSON.stringify(endpoint.body),
+      data: endpoint.body,
     })
       .then(async (response: any) => {
         const data = await response.json();
@@ -89,7 +90,3 @@ class API {
     }
   }
 }
-
-const sdk = new API();
-
-export { sdk, endpoint_enums };

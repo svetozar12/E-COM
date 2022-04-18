@@ -5,12 +5,13 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "server": "nodemon dist/server.js",
-    "watch": "tsc --watch",
     "lint": "eslint src",
-    "dev": "npm run server && npm run watch",
     "test": "jest --forceExit --detectOpenHandles  --watchAll --maxWorkers=1",
     "format": "prettier --write **/*.{js,ts,tsx}"
+  },
+  "env": {
+    "browser": true,
+    "node": true
   },
   "author": "",
   "license": "ISC",
@@ -39,6 +40,7 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
+    "axios": "^0.26.1",
     "dotenv": "^16.0.0",
     "node-fetch": "^2.6.6"
   }

@@ -10,20 +10,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DisplayItems from "./Components/Seasons";
 import IndexPage from "./Pages/IndexPage";
 import AuthProvider from "./utils/auth";
-import { endpoint_enums } from "@E-COM/sdk";
-
+import { endpoint_enums } from "@E-COM/sdk/dist/enpoints_enum";
 function App() {
-  console.log(endpoint_enums);
-  // React.useEffect(() => {
-  //   (async () => {
-  //     const data = await sdk.auth(endpoint_enums.login, {
-  //       email: "ivan@.com",
-  //       password: "ivan",
-  //     });
-  //     console.log(data);
-  //   })();
-  // }, []);
-
   return (
     <>
       <Routes>
