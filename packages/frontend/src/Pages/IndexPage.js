@@ -34,7 +34,7 @@ const IndexPage = () => {
                 className="w-3/6"
                 onClick={(curr) => setWantsLogIn(!curr)}
               >
-                Sing-up
+                Sign-up
               </button>
             </div>
             <div className="w-full h-1 flex justify-start items-center rounded-full bg-slate-400">

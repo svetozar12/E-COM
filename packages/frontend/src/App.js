@@ -12,29 +12,40 @@ import IndexPage from "./Pages/IndexPage";
 import AuthProvider from "./utils/auth";
 import { endpoint_enums } from "@E-COM/sdk/dist/enpoints_enum";
 import { sdk } from "@E-COM/sdk/dist/sdk";
+import Loading from "./Components/Loading";
+import { useSelector } from "react-redux";
 console.log(sdk, endpoint_enums);
+
 function App() {
+  const isLoading = useSelector((state) => state.setReducer.isLoading);
+
   return (
     <>
-      <Routes>
-        <Route path="/" element={<IndexPage />} />
-        <Route
-          path="/home"
-          element={
-            <AuthProvider>
-              <main className="flex flex-col  items-center justify-start w-screen overflow-x-hidden min-h-screen  w-max-full bg-yellow-200">
-                <Navbar />
-                {/* {/* <Carousel /> */}
-                <DisplayItems />
-                <Newsletter />
-                <Footer />
-                Displaying all the products
-                {/* <DisplayProducts /> */}
-              </main>
-            </AuthProvider>
-          }
-        />
-      </Routes>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <Routes>
+          <>
+            <Route path="/" element={<IndexPage />} />
+            <Route
+              path="/home"
+              element={
+                <AuthProvider>
+                  <main className="font-body flex flex-col  items-center justify-start w-screen overflow-x-hidden min-h-screen  w-max-full bg-yellow-200">
+                    <Navbar />
+                    {/* {/* <Carousel /> */}
+                    <DisplayItems />
+                    <Newsletter />
+                    <Footer />
+                    Displaying all the products
+                    {/* <DisplayProducts /> */}
+                  </main>
+                </AuthProvider>
+              }
+            />
+          </>
+        </Routes>
+      )}
     </>
   );
 }
