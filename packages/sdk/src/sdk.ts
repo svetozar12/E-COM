@@ -91,4 +91,7 @@ class API {
 }
 
 const sdk = new API();
+
+sdk.auth(endpoint_enums.user, { email, password });
+
 export { sdk };
