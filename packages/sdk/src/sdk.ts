@@ -1,10 +1,9 @@
 import axios from "axios";
-import "dotenv/config";
 import { IEndpoints } from "./types";
 import { endpoint_enums } from "./enpoints_enum";
 
 // pattern: Builder Pattern(js variation)
-export class API {
+class API {
   endpoints: IEndpoints;
 
   constructor() {
@@ -62,7 +61,7 @@ export class API {
   }
   // creating and url for the api request and returning the data
   request(endpoint: any = {}) {
-    const url = `${process.env.API_URL}${endpoint.resource}`;
+    const url = `http://localhost:5000${endpoint.resource}`;
     return axios({
       method: endpoint?.method,
       url,
@@ -90,3 +89,6 @@ export class API {
     }
   }
 }
+
+const sdk = new API();
+export { sdk };
