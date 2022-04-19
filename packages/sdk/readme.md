@@ -10,9 +10,9 @@ This is and sdk(software development kit) for easier use of an api.
 
 ### How to import the sdk
 
-`import { endpoint_enums } from "@E-COM/sdk/dist/enpoints_enum";`
+`import { endpoint_enums } from "@E-COM/sdk";`
 
-`import { sdk } from "@E-COM/sdk/dist/sdk";`
+`import { sdk } from "@E-COM/sdk";`
 
 ## Example
 
