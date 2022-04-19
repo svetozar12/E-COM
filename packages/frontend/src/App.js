@@ -10,9 +10,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DisplayItems from "./Components/Seasons";
 import IndexPage from "./Pages/IndexPage";
 import AuthProvider from "./utils/auth";
-// import { endpoint_enums } from "@E-COM/sdk/dist/enpoints_enum";
+import { endpoint_enums } from "@E-COM/sdk/dist/enpoints_enum";
 import { sdk } from "@E-COM/sdk/dist/sdk";
-console.log(sdk);
+console.log(sdk, endpoint_enums);
 function App() {
   return (
     <>
