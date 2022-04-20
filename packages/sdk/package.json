@@ -2,12 +2,13 @@
   "name": "@E-COM/sdk",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
   "scripts": {
-    "build": "tsc",
-    "lint": "eslint src",
-    "test": "jest --forceExit --detectOpenHandles  --watchAll --maxWorkers=1",
-    "format": "prettier --write **/*.{js,ts,tsx}"
+    "rollup": "rollup -c",
+    "rollup-w": "rollup -c -w",
+    "build": "tsc && yarn rollup",
+    "dev": "yarn rollup-w"
   },
   "env": {
     "browser": true,
@@ -16,12 +17,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-node-resolve": "^13.0.6",
+    "@rollup/plugin-typescript": "^8.3.2",
     "@types/jest": "^26.0.9",
-    "@types/node": "^17.0.24",
     "@types/node-fetch": "^2.6.1",
-    "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^5.15.0",
     "@typescript-eslint/parser": "^5.15.0",
+    "autoprefixer": "^10.4.4",
     "eslint": "^8.11.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-standard": "^14.1.1",
@@ -29,19 +32,19 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "husky": "^4.2.5",
     "jest": "^26.2.2",
-    "nodemon": "^2.0.4",
     "prettier": "2.0.5",
-    "pretty-quick": "^2.0.1",
+    "rollup": "2.69.2",
+    "rollup-plugin-dts": "^4.0.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-terser": "^7.0.2",
     "supertest": "^4.0.2",
+    "tailwindcss": "^3.0.24",
     "ts-jest": "^26.1.4",
-    "ts-node": "^8.10.2",
-    "typescript": "^3.9.3"
+    "typescript": "^4.0.2"
   },
   "dependencies": {
-    "axios": "^0.26.1",
-    "dotenv": "^16.0.0",
-    "node-fetch": "^2.6.6"
+    "axios": "^0.26.1"
   }
 }

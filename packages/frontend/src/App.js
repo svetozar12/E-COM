@@ -10,11 +10,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DisplayItems from "./Components/Seasons";
 import IndexPage from "./Pages/IndexPage";
 import AuthProvider from "./utils/auth";
-import { endpoint_enums } from "@E-COM/sdk/dist/enpoints_enum";
-import { sdk } from "@E-COM/sdk";
+// import * as mySdk from "@E-COM/sdk";
 import Loading from "./Components/Loading";
 import { useSelector } from "react-redux";
-console.log(sdk, endpoint_enums);
+import { sdk } from "@E-COM/sdk";
 
 function App() {
   const isLoading = useSelector((state) => state.setReducer.isLoading);

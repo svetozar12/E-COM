@@ -1,6 +1,5 @@
 import axios from "axios";
-import { IEndpoints } from "./types";
-import { endpoint_enums } from "./enpoints_enum";
+import { IEndpoints } from "../types";
 
 // pattern: Builder Pattern(js variation)
 class API {
@@ -92,4 +91,4 @@ class API {
 
 const sdk = new API();
 
-export { sdk };
+export default sdk;
