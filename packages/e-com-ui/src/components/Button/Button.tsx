@@ -1,7 +1,11 @@
-import styled from "@emotion/styled";
+import * as React from "react";
 
-const Button = styled.button({
-  color: "hotpink",
-});
+export interface ButtonProps {
+  label: string;
+}
 
-export { Button };
+const Button = (props: ButtonProps) => {
+  return <button className="text-red-600">{props.label}</button>;
+};
+
+export default Button;

@@ -12,18 +12,14 @@ import IndexPage from "./Pages/IndexPage";
 import AuthProvider from "./utils/auth";
 import Loading from "./Components/Loading";
 import { useSelector } from "react-redux";
-import * as ui from "@E-COM/e-com-ui";
-//to import every component
-// or
-//
-// import { Button } from "@E-COM/e-com-ui"; for single import
-console.log(ui.Button);
+import { Button } from "@E-COM/e-com-ui";
+
 function App() {
   const isLoading = useSelector((state) => state.setReducer.isLoading);
 
   return (
     <>
-      {/* <ui.Button>click me</ui.Button>*/}
+      {/* <Button label="click me" /> */}
       {isLoading ? (
         <Loading />
       ) : (
