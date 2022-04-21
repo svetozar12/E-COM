@@ -13,7 +13,7 @@ import AuthProvider from "./utils/auth";
 // import * as mySdk from "@E-COM/sdk";
 import Loading from "./Components/Loading";
 import { useSelector } from "react-redux";
-import { sdk } from "@E-COM/sdk";
+// import { sdk, endpoints } from "@E-COM/sdk";
 
 function App() {
   const isLoading = useSelector((state) => state.setReducer.isLoading);
