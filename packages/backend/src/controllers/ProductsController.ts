@@ -1,9 +1,10 @@
+// @ts-nocheck
+
 import { NextFunction, Request, Response, Router } from "express";
 import * as mongoose from "mongoose";
-import Category, { CategorySchema, createCategory } from "../models/Category.model";
-import Product, { ProductSchema, readProduct, createProduct, updateProductCategories } from "../models/Product.model";
+import Product, { ProductSchema, readProduct, createProduct } from "../models/Product.model";
+import paginatedResults from "../middleware/pagination";
 export const ProductsController: Router = Router();
-
 // endpoint :/products
 ProductsController.get("/:_id", async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -11,6 +12,15 @@ ProductsController.get("/:_id", async (req: Request, res: Response, next: NextFu
     const product = await readProduct(_id);
     if (!product) return res.status(404).json({ message: `product with id: ${_id} wasn't found` });
     res.status(200).json({ data: product });
+  } catch (e) {
+    next(e);
+  }
+});
+
+ProductsController.get("/", paginatedResults(Product), async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    if (!res.paginatedResults) return res.status(404).json({ message: `The admin or moderator should add products` });
+    res.status(200).json(res.paginatedResults);
   } catch (e) {
     next(e);
   }
@@ -25,6 +35,7 @@ ProductsController.post("/", async (req: Request, res: Response, next: NextFunct
       product_price: req.body.product_price,
       currency: req.body.currency,
       out_of_stock: req.body.out_of_stock,
+      categories: req.body.categories,
     };
 
     const checkIfExist = await Product.findOne(product).exec();
@@ -37,20 +48,7 @@ ProductsController.post("/", async (req: Request, res: Response, next: NextFunct
 
     const newProduct = await createProduct(product);
 
-    const category: CategorySchema = {
-      _id: new mongoose.Types.ObjectId(),
-      products: newProduct._id,
-      category: req.body.category,
-    };
-
-    for (const [key, value] of Object.entries(category)) {
-      if (value === "") return res.status(400).json({ message: `Value of key: ${key} can't be empty` });
-    }
-
-    const newCatogory = await createCategory(category);
-    const defaultProduct = await updateProductCategories(newProduct._id, newCatogory);
-
-    res.status(200).json({ data: defaultProduct });
+    res.status(200).json({ data: newProduct });
   } catch (e) {
     return e;
   }
@@ -59,16 +57,20 @@ ProductsController.post("/", async (req: Request, res: Response, next: NextFunct
 ProductsController.put("/:_id", async (req: Request, res: Response) => {
   try {
     const _id: string = req.params._id;
-    const newProduct: ProductSchema = {
+
+    const oldProduct = await Product.findOne({ _id });
+
+    const product: ProductSchema = {
       _id: new mongoose.Types.ObjectId(),
-      product_name: req.body.product_name,
-      product_description: req.body.product_description,
-      product_price: req.body.product_price,
-      currency: req.body.currency,
-      out_of_stock: req.body.out_of_stock,
+      product_name: req.body.product_name || oldProduct?.product_name,
+      product_description: req.body.product_description || oldProduct?.product_description,
+      product_price: req.body.product_price || oldProduct?.product_price,
+      currency: req.body.currency || oldProduct?.currency,
+      out_of_stock: req.body.out_of_stock || oldProduct?.out_of_stock,
+      categories: req.body.categories || oldProduct?.categories,
     };
 
-    await Product.findByIdAndUpdate(_id, newProduct, (err: Error, product: ProductSchema) => {
+    await Product.findByIdAndUpdate(_id, product, (err: Error, product: ProductSchema) => {
       if (err) return res.status(404).json({ message: "Error occurred while searching for product", err });
       return res.status(201).json({ data: product });
     });
@@ -84,7 +86,6 @@ ProductsController.delete("/:_id", async (req: Request, res: Response) => {
     const product = await Product.findOne({ _id }).exec();
     if (!product) return res.status(404).json({ message: `Product with id: ${_id} doesn't exist` });
 
-    await Category.deleteOne({ _id: product.category_id }).exec();
     await Product.deleteOne({ _id: product._id }).exec();
 
     res.status(201).json({ data: `deleted product with id: ${_id}` });
