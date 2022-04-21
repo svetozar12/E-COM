@@ -68,7 +68,7 @@ class API {
       data: endpoint.body,
     })
       .then(async (response: any) => {
-        const data = await response.json();
+        const data = await response;
         return data;
       })
       .catch((error: any) => {
