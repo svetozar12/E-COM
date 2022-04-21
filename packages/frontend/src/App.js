@@ -11,23 +11,20 @@ import DisplayItems from "./Components/Seasons";
 import IndexPage from "./Pages/IndexPage";
 import AuthProvider from "./utils/auth";
 import Loading from "./Components/Loading";
-import { useSelector } from 'react-redux'
+import { useSelector } from "react-redux";
+import { Button } from "@E-COM/e-com-ui";
 
 function App() {
-
-  const isLoading = useSelector(state => state.setReducer.isLoading)
+  const isLoading = useSelector((state) => state.setReducer.isLoading);
 
   return (
     <>
-      {isLoading ?
+      {/* <Button label="click me" /> */}
+      {isLoading ? (
         <Loading />
-        :
-
-
+      ) : (
         <Routes>
-
           <>
-
             <Route path="/" element={<IndexPage />} />
             <Route
               path="/home"
@@ -46,9 +43,8 @@ function App() {
               }
             />
           </>
-
         </Routes>
-      }
+      )}
     </>
   );
 }
