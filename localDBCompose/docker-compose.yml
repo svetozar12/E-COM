@@ -3,7 +3,7 @@ version: "3.1"
 name: db
 services:
   mongo:
-    container_name: mongo
+    container_name: mongo-E-COM
     image: mongo
     volumes:
       - mongo_db:/data/db

@@ -10,16 +10,28 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DisplayItems from "./Components/Seasons";
 import IndexPage from "./Pages/IndexPage";
 import AuthProvider from "./utils/auth";
+// import * as mySdk from "@E-COM/sdk";
 import Loading from "./Components/Loading";
 import { useSelector } from "react-redux";
-import { Button } from "@E-COM/e-com-ui";
+import { sdk, endpoints } from "@E-COM/sdk";
+let data;
 
 function App() {
   const isLoading = useSelector((state) => state.setReducer.isLoading);
+  const init = async () => {
+    data = await sdk.auth(endpoints.login, {
+      email: "divan@.com",
+      password: "divan",
+    });
+    console.log(data);
+  };
+
+  React.useEffect(() => {
+    init();
+  });
 
   return (
     <>
-      {/* <Button label="click me" /> */}
       {isLoading ? (
         <Loading />
       ) : (
