@@ -12,7 +12,7 @@ export const verifyToken: RequestHandler = (req, res, next) => {
     const secret = process.env.JWT_SECRET as string;
     jwt.verify(bearerToken, secret, (err, token) => {
       if (err) {
-        throw new Error("Token has expired !");
+        return res.status(403).json({ message: "Bad token" });
       }
       // @ts-ignore
       return (req.token = token);
