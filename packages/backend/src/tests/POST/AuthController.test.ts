@@ -1,6 +1,5 @@
 import * as request from "supertest";
-import app from "../app";
-import User from "../models/User.model";
+import app from "../../app";
 
 describe("AuthController", () => {
   let token: string;
@@ -92,28 +91,6 @@ describe("AuthController", () => {
     });
   });
 
-  describe("/auth/user", () => {
-    test("/user {_id,username,email} 200 OK", async () => {
-      const response = await request(app)
-        .get("/auth/user")
-        .set({ Accept: "application/json", Authorization: `Bearer ${token}` })
-        .send();
-
-      expect(response.status).toBe(200);
-      expect(response.body.data).toHaveProperty("_id");
-      expect(response.body.data).toHaveProperty("username");
-      expect(response.body.data).toHaveProperty("email");
-    });
-
-    test("/user {message} 403 FORBIDDEN Bad token", async () => {
-      const response = await request(app).get("/auth/user").set({ Accept: "application/json", Authorization: `Bearer ` }).send();
-
-      expect(response.status).toBe(403);
-      expect(response.body).toHaveProperty("message");
-      expect(response.body.message).toBe("Bad token");
-    });
-  });
-
   describe("/auth/refresh", () => {
     test("/refresh {user_id,Access_token,Refresh_token} 200 OK", async () => {
       const user = await request(app)
@@ -141,32 +118,6 @@ describe("AuthController", () => {
       expect(result.status).toBe(404);
       expect(result.body).toHaveProperty("message");
       expect(result.body.message).toBe("User not found");
-    });
-  });
-
-  describe("/auth/delete", () => {
-    let del_token: string;
-    beforeAll(async () => {
-      await User.create({ username: "userForDelete", email: "userForDelete@.com", password: "userForDelete" });
-      const user = await request(app)
-        .post("/auth/login")
-        .set("Accept", "application/json")
-        .send({ email: "userForDelete@.com", password: "userForDelete" });
-
-      del_token = user.body.Access_token;
-    });
-    afterAll(async () => {
-      await User.deleteOne({ username: "userForDelete", email: "userForDelete@.com" });
-    });
-    test("/delete {user_id,Access_token,Refresh_token} 200 OK", async () => {
-      const result = await request(app)
-        .delete("/auth/delete")
-        .set({ Accept: "application/json", Authorization: `Bearer ${del_token}` })
-        .send();
-
-      expect(result.status).toBe(200);
-      expect(result.body).toHaveProperty("message");
-      expect(result.body.message).toBe("User was deleted");
     });
   });
 });
