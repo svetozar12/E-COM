@@ -48,4 +48,14 @@ const products = [
   },
 ];
 
-export { users, products };
+const productForDeleteTest = {
+  _id: new mongoose.Types.ObjectId(),
+  product_name: "product34",
+  product_description: "product_description_34",
+  product_price: 12,
+  currency: "Euros",
+  out_of_stock: false,
+  categories: ["winter"],
+};
+
+export { users, products, productForDeleteTest };

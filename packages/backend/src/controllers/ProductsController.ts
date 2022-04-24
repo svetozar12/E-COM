@@ -19,7 +19,9 @@ ProductsController.get("/:_id", async (req: Request, res: Response, next: NextFu
 
 ProductsController.get("/", paginatedResults(Product), async (req: Request, res: Response, next: NextFunction) => {
   try {
-    if (!res.paginatedResults) return res.status(404).json({ message: `The admin or moderator should add products` });
+    if (res.paginatedResults === "please provide category") res.status(400).json({ message: res.paginatedResults });
+    if (!res.paginatedResults || res.paginatedResults.length <= 0)
+      return res.status(404).json({ message: `The admin or moderator should add products` });
     res.status(200).json(res.paginatedResults);
   } catch (e) {
     next(e);
@@ -38,7 +40,7 @@ ProductsController.post("/", async (req: Request, res: Response, next: NextFunct
       categories: req.body.categories,
     };
 
-    const checkIfExist = await Product.findOne(product).exec();
+    const checkIfExist = await Product.findOne({ product_name: product.product_name }).exec();
 
     if (checkIfExist) return res.status(400).json({ message: "Product already exist" });
 
@@ -48,7 +50,7 @@ ProductsController.post("/", async (req: Request, res: Response, next: NextFunct
 
     const newProduct = await createProduct(product);
 
-    res.status(200).json({ data: newProduct });
+    res.status(201).json({ data: newProduct });
   } catch (e) {
     return e;
   }
@@ -57,12 +59,13 @@ ProductsController.post("/", async (req: Request, res: Response, next: NextFunct
 ProductsController.put("/:_id", async (req: Request, res: Response) => {
   try {
     const _id: string = req.params._id;
-
     const oldProduct = await Product.findOne({ _id });
 
-    const product: ProductSchema = {
-      _id: new mongoose.Types.ObjectId(),
-      product_name: req.body.product_name || oldProduct?.product_name,
+    if (!oldProduct) return res.status(404).json({ message: `Product with id:${_id} not found` });
+
+    const productObj: ProductSchema = {
+      _id: _id,
+      product_name: req.body.product_name,
       product_description: req.body.product_description || oldProduct?.product_description,
       product_price: req.body.product_price || oldProduct?.product_price,
       currency: req.body.currency || oldProduct?.currency,
@@ -70,8 +73,9 @@ ProductsController.put("/:_id", async (req: Request, res: Response) => {
       categories: req.body.categories || oldProduct?.categories,
     };
 
-    await Product.findByIdAndUpdate(_id, product, (err: Error, product: ProductSchema) => {
+    Product.findOneAndUpdate({ _id }, productObj, { new: true }, (err: Error, product: ProductSchema) => {
       if (err) return res.status(404).json({ message: "Error occurred while searching for product", err });
+
       return res.status(201).json({ data: product });
     });
   } catch (e) {
@@ -88,7 +92,7 @@ ProductsController.delete("/:_id", async (req: Request, res: Response) => {
 
     await Product.deleteOne({ _id: product._id }).exec();
 
-    res.status(201).json({ data: `deleted product with id: ${_id}` });
+    res.status(200).json({ data: `deleted product with id: ${_id}` });
   } catch (e) {
     return e;
   }
