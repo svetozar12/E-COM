@@ -13,22 +13,9 @@ import AuthProvider from "./utils/auth";
 // import * as mySdk from "@E-COM/sdk";
 import Loading from "./Components/Loading";
 import { useSelector } from "react-redux";
-import { sdk, endpoints } from "@E-COM/sdk";
-let data;
 
 function App() {
   const isLoading = useSelector((state) => state.setReducer.isLoading);
-  const init = async () => {
-    data = await sdk.auth(endpoints.login, {
-      email: "divan@.com",
-      password: "divan",
-    });
-    console.log(data);
-  };
-
-  React.useEffect(() => {
-    init();
-  });
 
   return (
     <>
