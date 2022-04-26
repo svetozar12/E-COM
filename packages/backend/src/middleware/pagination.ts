@@ -40,6 +40,10 @@ function paginatedResults(model: Model<any>) {
       }
 
       results.results = await model.find({ categories: categories }).limit(limit).skip(startIndex).exec();
+      if (results.results.length <= 0) {
+        res.paginatedResults = "";
+        next();
+      }
       res.paginatedResults = results;
       next();
     } catch (e) {

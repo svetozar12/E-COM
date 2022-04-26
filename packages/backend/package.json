@@ -10,6 +10,7 @@
     "lint": "eslint src",
     "dev": "npm run server && npm run watch",
     "test": "jest --forceExit --detectOpenHandles  --watchAll --maxWorkers=1",
+    "coverage": "yarn test --coverage",
     "format": "prettier --write **/*.{js,ts,tsx}"
   },
   "repository": {
@@ -23,11 +24,6 @@
   ],
   "author": "Flamur Mavraj (Ornio AS)",
   "license": "ISC",
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
-  },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.12",

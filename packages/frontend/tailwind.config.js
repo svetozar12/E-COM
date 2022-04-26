@@ -1,5 +1,5 @@
 module.exports = {
-  content: ["./src/**/*.{tsx,js}"],
+  content: ["./src/**/*.{tsx,jsx}"],
   theme: {
     fontFamily: {
       body: ["Poppins"],
