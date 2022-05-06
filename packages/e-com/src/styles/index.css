@@ -1,10 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;1,500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;1,500&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-
 
 ::placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -14,20 +12,18 @@
   /* Firefox */
 }
 
-
-
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body{
+body {
   overflow-x: hidden;
 }
 
-.image::after{
-  content: '';
+.image::after {
+  content: "";
   display: block;
   position: absolute;
   width: 100%;
@@ -38,7 +34,7 @@ body{
   overflow: auto;
 }
 
-.btn{
+.btn {
   position: absolute;
   display: flex;
   justify-content: center;
@@ -51,17 +47,16 @@ body{
   bottom: 20%;
   background-color: rgb(254 215 170);
   opacity: 0.9;
-  
 }
 
 .btn p {
   text-align: center;
 }
-  .cover:hover .item{
-    transform: translateX(0%);
-  }
+.cover:hover .item {
+  transform: translateX(0%);
+}
 
-.item{
+.item {
   content: "";
   display: block;
   position: absolute;
@@ -77,4 +72,4 @@ body{
   transition-duration: 0;
   opacity: 0.8;
   z-index: 9999;
-} 
+}

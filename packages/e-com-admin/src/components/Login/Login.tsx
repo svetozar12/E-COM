@@ -1,6 +1,6 @@
 import React from "react";
 import css from "./Login.module.css";
-import style from "../styles/styles";
+import style from "../../styles/styles";
 import { css as inline } from "@emotion/css";
 
 const Login = () => {
