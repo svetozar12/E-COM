@@ -4,6 +4,7 @@ import React from "react";
 export interface FormProps {
   handleSubmit: (e: any) => Promise<any>;
   childrens: any[];
+  button_label: string;
 }
 
 const Form = (props: FormProps) => {
@@ -42,7 +43,7 @@ const Form = (props: FormProps) => {
         type="submit"
         className="w-4/5 h-12 bg-blue-800 rounded-xl text-2xl capitalize  text-white"
       >
-        SIGNUP
+        {props.button_label}
       </button>
     </form>
   );

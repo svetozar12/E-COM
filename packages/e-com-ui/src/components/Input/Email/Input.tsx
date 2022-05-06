@@ -2,7 +2,6 @@ import React from "react";
 import { AiOutlineMail } from "react-icons/ai";
 export interface InputProps {
   isValidEmail: boolean;
-  nameValue: string;
   emailValue: string;
   setEmailValue: React.Dispatch<React.SetStateAction<string>>;
 }

@@ -1,32 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input } from "@E-COM/ui_lib";
-
+import {
+  AiOutlineMail,
+  AiOutlineEyeInvisible,
+  AiOutlineEye,
+} from "react-icons/ai";
+import { ExternalLink } from "react-external-link";
 // Auth
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useLocation, useNavigate } from "react-router-dom";
-// Redux
-import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { ActionType } from "../redux/types";
+import { Form, Input } from "@E-COM/ui_lib";
 
-const SignUp = ({ wantsLogIn, setWantsLogIn }) => {
+const Login = ({ wantsLogIn, setWantsLogIn }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const [nameValue, setNameValue] = useState("");
+  console.log(Input);
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
+
   const [isValidEmail, setIsValidEmail] = useState(true);
-  const [isNameShort, setIsNameShort] = useState(false);
   const [isPasswordShort, setIsPasswordShort] = useState(false);
 
-  const LoggedIn = useSelector((state) => state.setReducer.LoggedIn);
-  const name = useSelector((state) => state.setReducer.name);
-  const isLoading = useSelector((state) => state.setReducer.isLoading);
   const dispatch = useDispatch();
-  let navigate = useNavigate();
-
-  React.useEffect(() => {
-    console.log(passwordValue);
-  }, [passwordValue]);
+  const navigate = useNavigate();
+  const [message, setMessage] = useState("");
+  // React.useEffect(() => {
+  //     console.log(passwordValue)
+  // }, [passwordValue])
 
   useEffect(() => {
     let timeout = setTimeout(() => {
@@ -35,23 +36,16 @@ const SignUp = ({ wantsLogIn, setWantsLogIn }) => {
     return () => clearTimeout(timeout);
   }, [isValidEmail]);
 
-  // useEffect(() => {
-  //   let timeout = setTimeout(() => {
-  //     setIsNameShort(true)
-  //   }, 1500);
-  //   return () => clearTimeout(timeout)
-  // }, [nameValue])
-
   useEffect(() => {
     let timeout = setTimeout(() => {
       setIsPasswordShort(false);
     }, 1500);
     return () => clearTimeout(timeout);
   }, [isPasswordShort]);
-  const location = useLocation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       // EMAIL VALIDATION
       let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -66,57 +60,60 @@ const SignUp = ({ wantsLogIn, setWantsLogIn }) => {
         setIsPasswordShort(true);
         return false;
       }
-
-      // if (nameValue.length <= 4) {
-      //   setIsNameShort(true);
-      //   return false
-      // }
-      // Start Loading
       dispatch({ type: ActionType.SET_LOADING });
-      if (nameValue && emailValue && passwordValue) {
-        const res = await axios.post("http://localhost:5000/auth/register", {
-          username: nameValue,
+      // INVALID USER MESSAGE INSTEAD OF LOADING WHEN USER DOESNT EXIST!
+
+      if (emailValue && passwordValue) {
+        const res = await axios.post("http://localhost:5000/auth/login", {
           email: emailValue,
           password: passwordValue,
         });
         Cookies.set("token", res.data.Access_token, { expires: 3600 });
+
+        const response = await axios.get("http://localhost:5000/auth/user", {
+          headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+        });
+        console.log(response.data.data.username, "login");
         navigate("./home", { replace: true });
-        setNameValue("");
         setEmailValue("");
         setPasswordValue("");
+        dispatch({
+          type: "SAVE_NAME",
+          payload: response.data.data.username,
+        });
+
         dispatch({ type: ActionType.LOGGED_IN });
-        dispatch({ type: ActionType.SAVE_NAME, payload: nameValue });
         dispatch({ type: ActionType.REMOVE_LOADING });
+
         return true;
       }
-      return false;
     } catch (error) {
-      return error;
+      dispatch({ type: ActionType.REMOVE_LOADING });
+      setMessage(error);
+      console.log(error);
     }
   };
 
   return (
-    <Form
-      handleSubmit={handleSubmit}
-      childrens={[
-        <Input.Input
-          isNameShort={isNameShort}
-          nameValue={nameValue}
-          setNameValue={setNameValue}
-        />,
-        <Input.Email
-          isValidEmail={isValidEmail}
-          emailValue={emailValue}
-          setEmailValue={setEmailValue}
-        />,
-        <Input.Password
-          isPasswordShort={isPasswordShort}
-          passwordValue={passwordValue}
-          setPasswordValue={setPasswordValue}
-        />,
-      ]}
-    />
+    <>
+      <Form
+        button_label="LOG-IN"
+        handleSubmit={handleSubmit}
+        childrens={[
+          <Input.Email
+            emailValue={emailValue}
+            setEmailValue={setEmailValue}
+            isValidEmail={isValidEmail}
+          />,
+          <Input.Password
+            passwordValue={passwordValue}
+            setPasswordValue={setPasswordValue}
+            isPasswordShort={isPasswordShort}
+          />,
+        ]}
+      />
+    </>
   );
 };
 
-export default React.memo(SignUp);
+export default React.memo(Login);

@@ -3,7 +3,6 @@ import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { BsPersonBadge } from "react-icons/bs";
 export interface InputProps {
   isPasswordShort: boolean;
-  nameValue: string;
   showPassword: boolean;
   passwordValue: string;
   setPasswordValue: React.Dispatch<React.SetStateAction<string>>;
