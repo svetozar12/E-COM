@@ -14,7 +14,7 @@
     "test": "lerna run test --stream",
     "diff": "lerna diff",
     "format": "lerna run build --stream",
-    "kill": "npx kill-port 3000 5000 4000 4002 8001 -y",
+    "kill": "npx kill-port 3000 3001 5000 -y",
     "graph": "lerna-dependency-graph"
   },
   "devDependencies": {
