@@ -4,20 +4,16 @@ import {
   AiOutlineEyeInvisible,
   AiOutlineEye,
 } from "react-icons/ai";
-import { ExternalLink } from "react-external-link";
 // Auth
 import axios from "axios";
 import Cookies from "js-cookie";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { ActionType } from "../redux/types";
-import { Form, Input } from "@E-COM/ui_lib";
 
-const Login = ({ wantsLogIn, setWantsLogIn }) => {
+const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  console.log(Input);
-  const [emailValue, setEmailValue] = useState("");
-  const [passwordValue, setPasswordValue] = useState("");
+  const [user, setUser] = useState({ emailValue: "", passwordValue: "" });
 
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isPasswordShort, setIsPasswordShort] = useState(false);
@@ -25,9 +21,6 @@ const Login = ({ wantsLogIn, setWantsLogIn }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
-  // React.useEffect(() => {
-  //     console.log(passwordValue)
-  // }, [passwordValue])
 
   useEffect(() => {
     let timeout = setTimeout(() => {
@@ -49,7 +42,7 @@ const Login = ({ wantsLogIn, setWantsLogIn }) => {
     try {
       // EMAIL VALIDATION
       let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      if (re.test(emailValue)) {
+      if (re.test(user.emailValue)) {
         console.log("valid email");
       } else {
         console.log("email not valid!");
@@ -63,10 +56,10 @@ const Login = ({ wantsLogIn, setWantsLogIn }) => {
       dispatch({ type: ActionType.SET_LOADING });
       // INVALID USER MESSAGE INSTEAD OF LOADING WHEN USER DOESNT EXIST!
 
-      if (emailValue && passwordValue) {
+      if (user.emailValue && user.passwordValue) {
         const res = await axios.post("http://localhost:5000/auth/login", {
-          email: emailValue,
-          password: passwordValue,
+          email: user.emailValue,
+          password: user.passwordValue,
         });
         Cookies.set("token", res.data.Access_token, { expires: 3600 });
 
@@ -95,24 +88,84 @@ const Login = ({ wantsLogIn, setWantsLogIn }) => {
   };
 
   return (
-    <>
-      <Form
-        button_label="LOG-IN"
-        handleSubmit={handleSubmit}
-        childrens={[
-          <Input.Email
-            emailValue={emailValue}
-            setEmailValue={setEmailValue}
-            isValidEmail={isValidEmail}
-          />,
-          <Input.Password
-            passwordValue={passwordValue}
-            setPasswordValue={setPasswordValue}
-            isPasswordShort={isPasswordShort}
-          />,
-        ]}
-      />
-    </>
+    <form
+      onSubmit={handleSubmit}
+      className="w-2/3 h-3/4 flex flex-col justify-center gap-6 items-center "
+    >
+      <div className=" md:w-72 w-11/12   h-2/4 flex flex-col  justify-center gap-8 items-center ">
+        <div className="relative w-full h-1/4 ">
+          <input
+            autoComplete="off"
+            required="required"
+            value={user.emailValue}
+            onChange={(e) => setUser({ emailValue: e.target.value })}
+            name="email"
+            type="text"
+            id="email"
+            placeholder="Enter your e-mail"
+            className="w-full h-full  md:text-lg rounded-lg px-2 outline-none bg-gray-200 "
+          />
+
+          {user.emailValue ? (
+            ""
+          ) : (
+            <span className="absolute top-2 md:top-2 lg:top-3.5 right-2 text-gray-400 text-3xl">
+              <AiOutlineMail />
+            </span>
+          )}
+          {isValidEmail ? (
+            ""
+          ) : (
+            <span className="text-red-800 "> Email is not valid.</span>
+          )}
+        </div>
+
+        <div className="relative w-full h-1/4">
+          <input
+            required="required"
+            maxLength={10}
+            value={user.passwordValue}
+            onChange={(e) => setUser({ passwordValue: e.target.value })}
+            type={showPassword ? "text" : "password"}
+            name=""
+            id=""
+            placeholder="Password"
+            className="w-full h-full md:text-lg rounded-lg px-2 outline-none bg-gray-200 "
+          />
+
+          <span
+            className="absolute cursor-pointer top-2 md:top-2 lg:top-3.5 right-2 text-gray-400 text-3xl"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
+          </span>
+          {isPasswordShort ? (
+            <span className="text-red-800 ">Password is too short.</span>
+          ) : (
+            ""
+          )}
+        </div>
+      </div>
+
+      <div>
+        <p className="text-blue-800 cursor-pointer text-sm text-center gap-2">
+          Forgot password?
+        </p>
+        <div className="flex md:w-64  gap-2 text-sm">
+          <p>Dont't have an account? </p>
+          <span className="text-blue-900 cursor-pointer  border-black">
+            Make one.
+          </span>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        className="w-4/5 h-12 bg-blue-800 rounded-xl text-2xl capitalize  text-white"
+      >
+        LOGIN
+      </button>
+    </form>
   );
 };
 

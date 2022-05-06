@@ -1,39 +1,37 @@
-import React from 'react'
-import { Form, Input } from '@E-COM/ui_lib'
+import React from "react";
+import css from "./Login.module.css";
+import style from "../styles/styles";
+import { css as inline } from "@emotion/css";
 
-const LogIn = () => {
-  const [emailValue, setEmailValue] = React.useState<string>('')
-  const [passwordValue, setPasswordValue] = React.useState<string>('')
-
-  const [isValidEmail, setIsValidEmail] = React.useState<boolean>(false)
-  const [isPasswordShort, setIssPasswordShort] = React.useState<boolean>(false)
-  const [showPassword, setShowPassword] = React.useState<boolean>(false)
-
-  const handleSubmit = async (): Promise<any> => {
-    return console.log('click')
-  }
+const Login = () => {
   return (
-    <>
-      <Form
-        button_label="LOG-IN"
-        handleSubmit={handleSubmit}
-        childrens={[
-          <Input.Email
-            emailValue={emailValue}
-            setEmailValue={setEmailValue}
-            isValidEmail={isValidEmail}
-          />,
-          <Input.Password
-            passwordValue={passwordValue}
-            setPasswordValue={setPasswordValue}
-            isPasswordShort={isPasswordShort}
-            showPassword={showPassword}
-            setShowPassword={setShowPassword}
-          />,
-        ]}
-      />
-    </>
-  )
-}
+    <div className={css.container}>
+      <div className={css.left}>
+        <div className={inline`width:60%;padding:0 1rem`}>
+          <style.FormHeader>Sign In</style.FormHeader>
+          <style.Paragraph className={inline`margin-left:0.3rem`}>
+            Enter your email and password to sign in!
+          </style.Paragraph>
+        </div>
+        <style.Form>
+          <style.Label>Email*</style.Label>
+          <style.Input placeholder="example@.com" type="email" />
+          <style.Label>Password*</style.Label>
+          <style.Input placeholder="Min. 8 characters" type="password" />
+          <div
+            className={inline`display:flex;justify-content:space-between;padding:0.5rem;margin-bottom:1rem;`}
+          >
+            <div>
+              <input type="checkbox" /> <label>Remember me</label>
+            </div>
+            <style.Href>Forgot password?</style.Href>
+          </div>
+          <style.Button>Login</style.Button>
+        </style.Form>
+      </div>
+      <div className={css.right}></div>
+    </div>
+  );
+};
 
-export default LogIn
+export default Login;

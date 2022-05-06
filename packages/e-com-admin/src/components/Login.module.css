@@ -1,0 +1,22 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+}
+
+.left {
+  width: 60%;
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.right {
+  width: 40%;
+  height: inherit;
+  background: url("https://horizon-ui.com/horizon-ui-chakra/static/media/auth.20d5979b439e1531640d.png")
+    repeat scroll 50% center / cover;
+  border-bottom-left-radius: 25%;
+}

@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "sdk": ["@E-COM/sdk/dist/sdk"],
-      "@endpoint": ["@E-COM/sdk/dist/endpoints_enum"]
-    }
-  }
-}

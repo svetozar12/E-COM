@@ -6,7 +6,6 @@ const IndexPage = () => {
 
   return (
     <main className="font-body flex justify-center flex-col md:flex-row items-center   h-screen w-screen bg-gray-200">
-      {/*Image  */}
       <div
         style={{
           backgroundImage: `url(https://pixabay.com/get/g031d791a78458f88a077efabcd6ab1ce48a6ca7d686865c90bc0326796cb30e4175f69a5ad6276fb9f315820bb051fb1.jpg)`,
@@ -23,7 +22,6 @@ const IndexPage = () => {
         </h2>
       </div>
       <div className="flex flex-col justify-start items-center w-5/6 h-5/6  md:w-2/5 md:h-5/6 bg-white ">
-        {/* Pick one */}
         <div className="flex flex-col justify-center gap-2 mt-5 items-center w-3/6 md:w-3/6 h-20">
           <div className="w-full flex flex-col items-center gap-6 md:gap-2 justify-evenly">
             <div className="flex w-full">
@@ -48,11 +46,7 @@ const IndexPage = () => {
             </div>
           </div>
         </div>
-        {wantsLogIn ? (
-          <Login wantsLogIn={wantsLogIn} setWantsLogIn={setWantsLogIn} />
-        ) : (
-          <SignUp wantsLogIn={wantsLogIn} setWantsLogIn={setWantsLogIn} />
-        )}
+        {wantsLogIn ? <Login /> : <SignUp />}
       </div>
     </main>
     //
