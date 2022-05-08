@@ -1,0 +1,19 @@
+.Icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #a4aec7;
+}
+
+.Icon_Active {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #422afb;
+}
+
+.Text {
+  color: #a4aec7;
+}
+
+.Text_Active {
+  color: #1a244a;
+}
